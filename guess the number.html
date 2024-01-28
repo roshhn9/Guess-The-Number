@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+
+        #game-container {
+            text-align: center;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Guess the Number Game</title>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Guess the Number!</h1>
+        <p>Guess a number between 1 and 100:</p>
+        <input type="number" id="userGuess" min="1" max="100">
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="result"></p>
+        <button onclick="resetGame()">Play Again</button>
+    </div>
+    <script>
+        const secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function checkGuess() {
+            const userGuess = parseInt(document.getElementById('userGuess').value);
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                alert('Please enter a valid number between 1 and 100.');
+                return;
+            }
+
+            attempts++;
+
+            if (userGuess === secretNumber) {
+                document.getElementById('result').textContent = `Congratulations! You guessed the number ${secretNumber} in ${attempts} attempts.`;
+                disableInputAndButton();
+            } else if (userGuess < secretNumber) {
+                document.getElementById('result').textContent = 'Too low! Try again.';
+            } else {
+                document.getElementById('result').textContent = 'Too high! Try again.';
+            }
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('userGuess').value = '';
+            document.getElementById('result').textContent = '';
+            enableInputAndButton();
+        }
+
+        function disableInputAndButton() {
+            document.getElementById('userGuess').disabled = true;
+            document.querySelector('button').disabled = true;
+        }
+
+        function enableInputAndButton() {
+            document.getElementById('userGuess').disabled = false;
+            document.querySelector('button').disabled = false;
+        }
+    </script>
+</body>
+</html>
